@@ -38,7 +38,6 @@ public class Mqtt {
             mqttClient.subscribe(Constants.P2P_PREFIX + clientId, new IMqttMessageListener() {
                 @Override
                 public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-                    System.out.println("s=" + s);
                     System.out.println(mqttMessage.toString());
                 }
             });
@@ -46,6 +45,18 @@ public class Mqtt {
             log.error("init mqtt client error", e);
             System.exit(1);
         }
+    }
+
+    public void sendMsg(String topic, String msg) {
+        MqttMessage message = new MqttMessage(msg.getBytes());
+        message.setQos(2);
+        try {
+            mqttClient.publish(topic, message);
+        } catch (MqttException e) {
+            log.error("send {} to {} error={}", message, topic, e);
+            e.printStackTrace();
+        }
+        log.debug("send {} to {} success", message, topic);
     }
 
     public void test() {
@@ -61,7 +72,6 @@ public class Mqtt {
             mqttClient.publish(topic, message);
             System.out.println("Message published");
 
-            System.out.println("Disconnected");
         } catch (Exception me) {
             System.out.println("msg " + me.getMessage());
             System.out.println("loc " + me.getLocalizedMessage());

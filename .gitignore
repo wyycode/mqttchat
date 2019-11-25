@@ -52,3 +52,7 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/resources/static/
+src/main/resources/templates/
+chatuser/src/main/resources/static/
+chatuser/src/main/resources/templates/
